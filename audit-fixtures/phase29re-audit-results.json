@@ -1,0 +1,156 @@
+{
+  "pbim": {
+    "Candidate_E_A": {
+      "renderedCollisions": 121,
+      "sameRow": 115,
+      "adjacentRow": 6,
+      "verticalOnly": 0,
+      "true2D": 0,
+      "shapeCollisions": 11,
+      "footprint": {
+        "width": 7725,
+        "height": 26406,
+        "area": 203986350
+      },
+      "deltaW": 0,
+      "deltaH": 6,
+      "deltaArea": 46350,
+      "deltaAreaPct": "0.02%",
+      "movedNodes": 403,
+      "unchangedNodes": 125,
+      "pctMoved": "76.3%",
+      "maxDisp": "1887.31",
+      "meanDisp": "343.03",
+      "p95Disp": "1525.12",
+      "preservedNodes": true,
+      "preservedEdges": true
+    },
+    "Candidate_E_B": {
+      "renderedCollisions": 98,
+      "sameRow": 47,
+      "adjacentRow": 49,
+      "verticalOnly": 2,
+      "true2D": 0,
+      "shapeCollisions": 57,
+      "footprint": {
+        "width": 4847,
+        "height": 27361,
+        "area": 132618767
+      },
+      "deltaW": -2878,
+      "deltaH": 961,
+      "deltaArea": -71321233,
+      "deltaAreaPct": "-34.97%",
+      "movedNodes": 528,
+      "unchangedNodes": 0,
+      "pctMoved": "100.0%",
+      "maxDisp": "27653.36",
+      "meanDisp": "2875.85",
+      "p95Disp": "3044.00",
+      "preservedNodes": true,
+      "preservedEdges": true
+    },
+    "Candidate_E_C": {
+      "renderedCollisions": 90,
+      "sameRow": 89,
+      "adjacentRow": 1,
+      "verticalOnly": 0,
+      "true2D": 0,
+      "shapeCollisions": 2,
+      "footprint": {
+        "width": 9363,
+        "height": 26993,
+        "area": 252735459
+      },
+      "deltaW": 1638,
+      "deltaH": 593,
+      "deltaArea": 48795459,
+      "deltaAreaPct": "23.93%",
+      "movedNodes": 528,
+      "unchangedNodes": 0,
+      "pctMoved": "100.0%",
+      "maxDisp": "5735.88",
+      "meanDisp": "1770.44",
+      "p95Disp": "2693.43",
+      "preservedNodes": true,
+      "preservedEdges": true
+    }
+  },
+  "cloud-spend-tracker": {
+    "Candidate_E_A": {
+      "renderedCollisions": 33,
+      "sameRow": 29,
+      "adjacentRow": 1,
+      "verticalOnly": 3,
+      "true2D": 0,
+      "shapeCollisions": 2,
+      "footprint": {
+        "width": 3378,
+        "height": 12949,
+        "area": 43741722
+      },
+      "deltaW": 0,
+      "deltaH": 59,
+      "deltaArea": 199302,
+      "deltaAreaPct": "0.46%",
+      "movedNodes": 235,
+      "unchangedNodes": 5,
+      "pctMoved": "97.9%",
+      "maxDisp": "1158.64",
+      "meanDisp": "264.42",
+      "p95Disp": "706.39",
+      "preservedNodes": true,
+      "preservedEdges": true
+    },
+    "Candidate_E_B": {
+      "renderedCollisions": 12,
+      "sameRow": 7,
+      "adjacentRow": 3,
+      "verticalOnly": 2,
+      "true2D": 0,
+      "shapeCollisions": 6,
+      "footprint": {
+        "width": 2238,
+        "height": 12126,
+        "area": 27137988
+      },
+      "deltaW": -1140,
+      "deltaH": -764,
+      "deltaArea": -16404432,
+      "deltaAreaPct": "-37.67%",
+      "movedNodes": 240,
+      "unchangedNodes": 0,
+      "pctMoved": "100.0%",
+      "maxDisp": "3842.80",
+      "meanDisp": "973.02",
+      "p95Disp": "1607.26",
+      "preservedNodes": true,
+      "preservedEdges": true
+    },
+    "Candidate_E_C": {
+      "renderedCollisions": 36,
+      "sameRow": 28,
+      "adjacentRow": 6,
+      "verticalOnly": 2,
+      "true2D": 0,
+      "shapeCollisions": 13,
+      "footprint": {
+        "width": 3297,
+        "height": 13399,
+        "area": 44176503
+      },
+      "deltaW": -81,
+      "deltaH": 509,
+      "deltaArea": 634083,
+      "deltaAreaPct": "1.46%",
+      "movedNodes": 240,
+      "unchangedNodes": 0,
+      "pctMoved": "100.0%",
+      "maxDisp": "1687.42",
+      "meanDisp": "574.25",
+      "p95Disp": "1152.76",
+      "preservedNodes": true,
+      "preservedEdges": true
+    }
+  }
+}

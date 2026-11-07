@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "test:playwright": "npx playwright test src/test/constellation-layout.test.ts",
     "dev": "vite",
     "build": "tsc -p tsconfig.prod.json && vite build",
     "preview": "vite preview",

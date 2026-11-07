@@ -642,8 +642,8 @@ export const GraphView = forwardRef<GraphViewRef, GraphViewProps>((props, ref) =
     const oldMode = prevLayoutModeRef.current;
     prevLayoutModeRef.current = layoutMode;
 
-    if (cyRef.current && typeof cyRef.current.autolock === 'function') {
-      cyRef.current.autolock(layoutMode === 'static');
+    if (cyRef.current && typeof (cyRef.current as any).autoungrabify === 'function') {
+      (cyRef.current as any).autoungrabify(layoutMode === 'static');
     }
 
     if (oldMode === 'interactive' && layoutMode === 'static') {
@@ -1062,6 +1062,7 @@ export const GraphView = forwardRef<GraphViewRef, GraphViewProps>((props, ref) =
       (window as any).__CY__ = cy;
       (window as any).__LAYOUT_MODULE__ = {
         runLayoutWithMetadata,
+        runLayoutWithMetadataAsync,
         computeArchitectureLayoutWithMetadata,
       };
     }
