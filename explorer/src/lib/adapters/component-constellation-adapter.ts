@@ -156,17 +156,35 @@ export function adaptComponentConstellation(
     }
   });
 
-  // Fallback if no contracted Suns exist in input (e.g., synthetic tests)
-  if (activeSunIds.length === 0) {
-    const allLwcs = nodes.filter((n) => n.type === 'LWC' && !n.file?.includes('.test.') && !n.file?.includes('__tests__'));
-    allLwcs.forEach((lwc, idx) => {
+  // If customSunIds were not explicitly provided and we did not match enough contracted Suns (e.g., non-PBIM project),
+  // supplement with available LWCs ranked deterministically by connectivity/metrics up to 14 total Suns
+  if (!options.customSunIds && activeSunIds.length < 14) {
+    const existingSunSet = new Set(activeSunIds);
+    const candidateLwcs = nodes
+      .filter((n) => n.type === 'LWC' && !existingSunSet.has(n.id) && !n.file?.includes('.test.') && !n.file?.includes('__tests__'))
+      .sort((a, b) => {
+        // Priority 1: High architectural coupling/score
+        const scoreA = a.metrics?.score ?? 0;
+        const scoreB = b.metrics?.score ?? 0;
+        if (scoreB !== scoreA) return scoreB - scoreA;
+        const fanOutA = a.metrics?.fanOut ?? 0;
+        const fanOutB = b.metrics?.fanOut ?? 0;
+        if (fanOutB !== fanOutA) return fanOutB - fanOutA;
+        const fanInA = a.metrics?.fanIn ?? 0;
+        const fanInB = b.metrics?.fanIn ?? 0;
+        if (fanInB !== fanInA) return fanInB - fanInA;
+        return a.id.localeCompare(b.id);
+      });
+
+    for (const lwc of candidateLwcs) {
+      if (activeSunIds.length >= 14) break;
       activeSunIds.push(lwc.id);
-      if (idx < 6) {
+      if (innerSunSet.size < 6) {
         innerSunSet.add(lwc.id);
       } else {
         outerSunSet.add(lwc.id);
       }
-    });
+    }
   }
 
   const allowedEdgeTypes = new Set(DEFAULT_COMPONENT_ORBIT_EDGE_TYPES);

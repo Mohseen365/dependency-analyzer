@@ -1054,8 +1054,8 @@ export const GraphView = forwardRef<GraphViewRef, GraphViewProps>((props, ref) =
     });
 
     cyRef.current = cy;
-    if (typeof cy.autolock === 'function') {
-      cy.autolock(layoutMode === 'static');
+    if (typeof (cy as any).autoungrabify === 'function') {
+      (cy as any).autoungrabify(layoutMode === 'static');
     }
     setCyInstance(cy);
     if (typeof window !== 'undefined' && ((import.meta as any).env?.DEV || (window as any).__EXPOSE_CY__)) {
