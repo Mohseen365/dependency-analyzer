@@ -121,4 +121,22 @@ describe('Component Constellation Adapter — Unit & PBIM Validation', () => {
     expect(projection.summary.sharedNodeCount).toBe(1);
     expect(projection.sharedNodeIds).toEqual(['ApexClass:Service']);
   });
+
+  it('7. Supplements up to 14 Suns when dataset only partially matches contracted Suns (e.g. CST with only error-panel)', () => {
+    const cstPath = path.join(__dirname, '../../../../explorer/public/projects/cst/explorer-data.json');
+    if (fs.existsSync(cstPath)) {
+      const cstRaw = fs.readFileSync(cstPath, 'utf8');
+      const cstData: ExplorerDataSchema = JSON.parse(cstRaw);
+
+      const projection = adaptComponentConstellation(cstData);
+
+      // CST contains 26 LWCs, only 1 of which is in CONTRACTED_14_SUN_IDS ('LWC:error-panel')
+      // Fallback must select 14 Suns rather than leaving only 1 Sun
+      expect(projection.summary.sunCount).toBe(14);
+      expect(projection.innerSuns.length).toBe(6);
+      expect(projection.outerSuns.length).toBe(8);
+      expect(projection.suns.some((s) => s.nodeId === 'LWC:error-panel')).toBe(true);
+      expect(projection.summary.totalUniqueNodes).toBeGreaterThan(14);
+    }
+  });
 });

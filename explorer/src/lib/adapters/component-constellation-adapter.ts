@@ -156,17 +156,71 @@ export function adaptComponentConstellation(
     }
   });
 
-  // Fallback if no contracted Suns exist in input (e.g., synthetic tests)
-  if (activeSunIds.length === 0) {
-    const allLwcs = nodes.filter((n) => n.type === 'LWC' && !n.file?.includes('.test.') && !n.file?.includes('__tests__'));
-    allLwcs.forEach((lwc, idx) => {
-      activeSunIds.push(lwc.id);
-      if (idx < 6) {
-        innerSunSet.add(lwc.id);
-      } else {
-        outerSunSet.add(lwc.id);
+  // If targetSunList did not yield 14 Suns (e.g. non-PBIM project or partial match),
+  // supplement with available LWCs ranked deterministically up to 14 Suns.
+  if (!options.customSunIds && activeSunIds.length < 14) {
+    const parentToChildLwcsMap = new Map<string, Set<string>>();
+    const childToParentLwcsMap = new Map<string, Set<string>>();
+    const outgoingEdgeCountMap = new Map<string, number>();
+
+    edges.forEach((edge) => {
+      const sNode = nodeMap.get(edge.source);
+      const tNode = nodeMap.get(edge.target);
+      if (sNode?.type === 'LWC') {
+        outgoingEdgeCountMap.set(edge.source, (outgoingEdgeCountMap.get(edge.source) || 0) + 1);
+        if (tNode?.type === 'LWC' && edge.relationshipType === 'lwc-template-child') {
+          if (!parentToChildLwcsMap.has(edge.source)) {
+            parentToChildLwcsMap.set(edge.source, new Set());
+          }
+          parentToChildLwcsMap.get(edge.source)!.add(edge.target);
+
+          if (!childToParentLwcsMap.has(edge.target)) {
+            childToParentLwcsMap.set(edge.target, new Set());
+          }
+          childToParentLwcsMap.get(edge.target)!.add(edge.source);
+        }
       }
     });
+
+    const activeSet = new Set(activeSunIds);
+    const candidateLwcs = nodes.filter(
+      (n) => n.type === 'LWC' && !activeSet.has(n.id) && !n.file?.includes('.test.') && !n.file?.includes('__tests__')
+    );
+
+    candidateLwcs
+      .map((lwc) => {
+        const childLwcs = parentToChildLwcsMap.get(lwc.id);
+        const childLwcCount = childLwcs ? childLwcs.size : 0;
+        const parents = childToParentLwcsMap.get(lwc.id);
+        const isRootLwc = !parents || parents.size === 0;
+        const outCount = outgoingEdgeCountMap.get(lwc.id) || 0;
+        return {
+          id: lwc.id,
+          childLwcCount,
+          totalDependencyCount: outCount,
+          isRootLwc,
+        };
+      })
+      .sort((a, b) => {
+        if (a.isRootLwc !== b.isRootLwc) return a.isRootLwc ? -1 : 1;
+        if (b.totalDependencyCount !== a.totalDependencyCount) {
+          return b.totalDependencyCount - a.totalDependencyCount;
+        }
+        if (b.childLwcCount !== a.childLwcCount) {
+          return b.childLwcCount - a.childLwcCount;
+        }
+        return a.id.localeCompare(b.id);
+      })
+      .forEach((cand) => {
+        if (activeSunIds.length < 14) {
+          activeSunIds.push(cand.id);
+          if (innerSunSet.size < 6) {
+            innerSunSet.add(cand.id);
+          } else {
+            outerSunSet.add(cand.id);
+          }
+        }
+      });
   }
 
   const allowedEdgeTypes = new Set(DEFAULT_COMPONENT_ORBIT_EDGE_TYPES);
