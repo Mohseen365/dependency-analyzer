@@ -67,8 +67,7 @@ export function shouldAutoLayout(
       case 'focus-change':
       case 'investigation':
       case 'mode-switch':
-        // When switching to static mode, we need to recompute layout to avoid collapsed nodes.
-        return true;
+        return false;
       case 'architecture-mode-switch':
         return true;
       case 'new-nodes':
@@ -89,8 +88,7 @@ export function shouldAutoLayout(
       case 'focus-change':
       case 'investigation':
       case 'mode-switch':
-        // When switching to static mode, we need to recompute layout to avoid collapsed nodes.
-        return true;
+        return false;
       case 'new-nodes':
         return hasAuth ? 'place-new-only' : true;
       default:

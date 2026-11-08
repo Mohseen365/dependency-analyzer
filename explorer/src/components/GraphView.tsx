@@ -646,6 +646,10 @@ export const GraphView = forwardRef<GraphViewRef, GraphViewProps>((props, ref) =
       (cyRef.current as any).autoungrabify(layoutMode === 'static');
     }
 
+    if (cyRef.current && typeof cyRef.current.autolock === 'function') {
+      cyRef.current.autolock(layoutMode === 'static');
+    }
+
     if (oldMode === 'interactive' && layoutMode === 'static') {
       if (isLayoutRunningRef.current && cyRef.current) {
         if (pendingModeSwitchCaptureRef.current) {
